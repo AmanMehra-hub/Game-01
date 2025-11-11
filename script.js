@@ -1,80 +1,82 @@
+// --- DOM refs ---
 const btn = document.querySelector("button");
 const targetColorBox = document.querySelector("#highlight-color");
 const timeDisplay = document.querySelector("#time");
 const scoreDisplay = document.querySelector("#scorer");
-const highScoreDisplay = document.querySelector("#high-score");
+const highScoreDisplay = document.querySelector("#high-score"); // (optional, if exists)
+const gridContent = document.getElementById("grid-box");
 
+// --- state ---
+let time = 0;
+let score = 0;
+let timerId = null;
+const GRID_SIZE = 16;
 
+// --- utils ---
+const randNum = (val) => Math.floor(Math.random() * (val + 1));
+
+const rndColor = () => {
+  // correct template literal + commas
+  return `rgb(${randNum(255)}, ${randNum(255)}, ${randNum(255)})`;
+};
+
+const colorArr = () => Array.from({ length: GRID_SIZE }, () => rndColor());
+
+// --- game ---
 function play() {
-    time = 30;
-    score = 0;
-    let timer;
+  // reset
+  if (timerId) clearInterval(timerId);
+  time = 30;
+  score = 0;
+  timeDisplay.innerText = time;
+  scoreDisplay.innerText = score;
+  scoreDisplay.style.color = "red";
+
+  createGrid();
+
+  timerId = setInterval(() => {
+    time--;
     timeDisplay.innerText = time;
-    scoreDisplay.innerText = score;
-    clearInterval(timer);
-    createGrid();
-    timer = setInterval(() => {
-        time--;
-        timeDisplay.innerText = time;
-        if (time === 0) {
-            clearInterval(timer);
-            alert("⌛Time's up! 🏆Your Score : " + score);
-            location.reload();
-            return 0;
-        }
-    }, 1000);
-    return 0;
-};
-
-
-let randNum = (val) => {
-    return Math.floor(Math.random() * (val + 1));
-}
-
-let rndColor = () => {
-    let color01 = rgb(${randNum(255)} ${randNum(255)} ${randNum(255)});
-    return color01;
-}
-
-function colorArr() {
-    let colors = [16];
-    for (let i = 0; i < 16; i++) {
-        let clrs = rndColor();
-        colors[i] = clrs;
+    if (time === 0) {
+      clearInterval(timerId);
+      alert("⌛ Time's up! 🏆 Your Score: " + score);
+      // optional: persist high score if you want
+      // location.reload(); // not required; we can just stop here
     }
-    return colors;
-};
+  }, 1000);
+}
 
-const createGrid = () => {
-    const color = colorArr();
-    const gridContent = document.getElementById("grid-box");
-    gridContent.innerText = "";
-    gridContent.style.border = "none";
-    let targetColor = color[randNum(15)];
-    targetColorBox.style.backgroundColor = targetColor;
-    targetColorBox.innerText = "";
-    color.forEach((color, targetClr) => {
-        const gridBox = document.createElement("div");
-        gridBox.className = "box";
-        gridContent.prepend(gridBox);
-        gridBox.style.backgroundColor = color;
-        gridBox.addEventListener('click', () => { clickCheck(color, targetColor); })
-    });
-    return 0;
-};
+function createGrid() {
+  const colors = colorArr();
+  gridContent.innerHTML = "";
+  gridContent.style.border = "none";
 
+  const targetColor = colors[randNum(GRID_SIZE - 1)];
+  targetColorBox.style.backgroundColor = targetColor;
+  targetColorBox.innerText = "";
 
+  colors.forEach((c) => {
+    const gridBox = document.createElement("div");
+    gridBox.className = "box";
+    gridBox.style.backgroundColor = c;
+    gridBox.addEventListener("click", () => clickCheck(c, targetColor));
+    gridContent.appendChild(gridBox);
+  });
+}
 
 function clickCheck(clickedColor, targetClr) {
-    
-    if (clickedColor === targetClr)
-        score++;
-    else if (score === 0) 
-        score = 0;
-    else
-        score--;
-    score>0 ? scoreDisplay.style.color="rgb(81, 234, 10)": scoreDisplay.style.color="red";
-    scoreDisplay.innerText = score;
-    createGrid();
-    return 0;
-};
+  if (clickedColor === targetClr) {
+    score++;
+  } else if (score > 0) {
+    score--;
+  }
+  scoreDisplay.style.color = score > 0 ? "rgb(81, 234, 10)" : "red";
+  scoreDisplay.innerText = score;
+  createGrid();
+}
+
+// start button (zaroori)
+btn?.addEventListener("click", play);
+
+// optional: auto-start on load
+// window.addEventListener("DOMContentLoaded", play);
