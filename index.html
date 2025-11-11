@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT - COLOR CATCHER</title>
-    <link rel="stylesheet" href="style01.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROJECT - COLOR CATCHER</title>
+  <link rel="stylesheet" href="style01.css"/>
 </head>
-
 <body>
-    <div id="heading">
-        <h1>Color Catcher Game</h1>
+  <div id="heading">
+    <h1>Color Catcher Game</h1>
+  </div>
+
+  <div id="game-container">
+    <div id="score-board">
+      <div id="score" class="time-score">
+        🎯 Score: <span id="scorer" style="font-size: larger;">0</span>
+      </div>
+      <div id="timer" class="time-score">
+        ⏱️ Time Left: <span id="time">30</span> Sec
+      </div>
+      <!-- optional high score (add only if JS needs it)
+      <div id="high-score" class="time-score">🏅 High: <span>0</span></div>
+      -->
     </div>
 
-    <div id="game-container">
+    <div id="container">
+      <div id="grid-box" class="content">
+        <p>Here, all colors will show after you start the game.</p>
+      </div>
 
-        <div id="score-board">
-            <div id="score" class="time-score">
-                🎯Score : <span id="scorer" style="font-size: larger;">0</span>
-            </div>
-            <div id="timer" class="time-score">
-                ⏱️Time Left: <span id="time">30</span>Sec
-            </div>
-        </div>
-
-        <div id="container">
-            <div id="grid-box" class="content">
-                <p> Here, all colors will be show to select after Game Start.</p>
-            </div>
-
-            <div id="highlight-color">Here, Targeted Color Show</div>
-        </div>
-
-        <button onclick=play()>START</button>
+      <div id="highlight-color" aria-label="Target color preview">
+        Here, Target Color will show
+      </div>
     </div>
 
-    <script src="color-script01.js"></script>
+    <!-- inline onclick HATADO; JS me eventListener lagao -->
+    <button id="start-btn" type="button">START</button>
+  </div>
+
+  <!-- Script body-end pe rehna sahi hai; ya <head> me defer ke sath -->
+  <script src="color-script01.js"></script>
 </body>
 </html>
