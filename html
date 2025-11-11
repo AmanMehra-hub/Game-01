@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT - COLOR CATCHER</title>
+    <link rel="stylesheet" href="style01.css">
+</head>
+
+<body>
+    <div id="heading">
+        <h1>Color Catcher Game</h1>
+    </div>
+
+    <div id="game-container">
+
+        <div id="score-board">
+            <div id="score" class="time-score">
+                🎯Score : <span id="scorer" style="font-size: larger;">0</span>
+            </div>
+            <div id="timer" class="time-score">
+                ⏱️Time Left: <span id="time">30</span>Sec
+            </div>
+        </div>
+
+        <div id="container">
+            <div id="grid-box" class="content">
+                <p> Here, all colors will be show to select after Game Start.</p>
+            </div>
+
+            <div id="highlight-color">Here, Targeted Color Show</div>
+        </div>
+
+        <button onclick=play()>START</button>
+    </div>
+
+    <script src="color-script01.js"></script>
+</body>
+</html>
